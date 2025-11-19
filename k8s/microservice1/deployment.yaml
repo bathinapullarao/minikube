@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  namespace: prod
+  labels:
+    app: myapp
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: myapp
+          image: bathinapullarao/hello-world-app:latest
+          ports:
+            - containerPort: 8080
+
+          # Load config & secret as environment variables
+          envFrom:
+            - configMapRef:
+                name: myapp-config
+            - secretRef:
+                name: myapp-secret
+
+          # Optional: Mount config as files
+          volumeMounts:
+            - name: app-storage
+              mountPath: /app/data
+            - name: config-volume
+              mountPath: /app/config
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+      volumes:
+        - name: app-storage
+          persistentVolumeClaim:
+            claimName: myapp-pvc
+        - name: config-volume
+          configMap:
+            name: myapp-config

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orderservice
+  namespace: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: orderservice
+  template:
+    metadata:
+      labels:
+        app: orderservice
+    spec:
+      containers:
+        - name: orderservice
+          image: bathinapullarao/orderservice:latest
+          ports:
+            - containerPort: 8000
+
+          env:
+            - name: APP_MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: orderservice-config
+                  key: APP_MESSAGE
+
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: orderservice-config
+                  key: APP_ENV
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: orderservice-secret
+                  key: DB_PASSWORD
+
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: orderservice-secret
+                  key: API_KEY
+
+          volumeMounts:
+            - name: orderservice-storage
+              mountPath: /data
+
+      volumes:
+        - name: orderservice-storage
+          persistentVolumeClaim:
+            claimName: orderservice-pvc

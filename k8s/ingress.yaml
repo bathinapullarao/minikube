@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myapp-ingress
+  namespace: prod
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+
+    # -------------------------
+    # 1. myapp.local (path based)
+    # -------------------------
+    - host: myapp.local
+      http:
+        paths:
+          - path: /myapp
+            pathType: Prefix
+            backend:
+              service:
+                name: myapp-service
+                port:
+                  number: 8080
+
+          - path: /orderservice
+            pathType: Prefix
+            backend:
+              service:
+                name: orderservice-service
+                port:
+                  number: 8000
+
+    # --------------------------------
+    # 2. perchases.local (host based)
+    # --------------------------------
+    - host: perchases.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: perchases-service
+                port:
+                  number: 8091

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: orderservice-config
+  namespace: prod
+data:
+  APP_MESSAGE: "Hello from Order Service!"
+  APP_ENV: "production"

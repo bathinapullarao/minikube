@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: perchases
+  namespace: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: perchases
+  template:
+    metadata:
+      labels:
+        app: perchases
+    spec:
+      containers:
+        - name: perchases
+          image: bathinapullarao/perchases:latest
+          ports:
+            - containerPort: 8091
+
+          env:
+            # From ConfigMap
+            - name: APP_MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: perchases-config
+                  key: APP_MESSAGE
+
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: perchases-config
+                  key: APP_ENV
+
+            # From Secret
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: perchases-secret
+                  key: DB_PASSWORD
+
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: perchases-secret
+                  key: API_KEY
+
+          volumeMounts:
+            - name: app-storage
+              mountPath: /data      # your app can store files here
+
+      volumes:
+        - name: app-storage
+          persistentVolumeClaim:
+            claimName: perchases-pvc
