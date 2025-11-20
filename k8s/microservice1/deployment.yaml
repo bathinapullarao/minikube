@@ -24,6 +24,7 @@ spec:
       containers:
         - name: myapp
           image: bathinapullarao/hello-world-app:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
 

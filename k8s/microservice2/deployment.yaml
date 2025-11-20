@@ -16,6 +16,7 @@ spec:
       containers:
         - name: orderservice
           image: bathinapullarao/orderservice:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
 
