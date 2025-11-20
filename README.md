@@ -75,13 +75,17 @@ kubectl apply -f k8s/
      │    └── hpa.yaml
      └── ...
 
-## Apply Manifests Individually
+## Apply/Delete Manifests Individually
 
 ``` bash
 kubectl apply -f namespace.yaml
 kubectl apply -f microservice1/
 kubectl apply -f microservice2/
 kubectl apply -f ingress.yaml
+kubectl delete -f namespace.yaml
+kubectl delete -f microservice1/
+kubectl delete -f microservice2/
+kubectl delete -f ingress.yaml
 ```
 
 # Troubleshooting Commands
