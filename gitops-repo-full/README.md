@@ -3,7 +3,7 @@ gitops-k8s-sample (Executable GitOps repo for Kubernetes)
 This document contains a full, runnable GitOps-style repository layout that you can push to a Git server (GitHub, GitLab, etc.) and use with kubectl/kustomize or ArgoCD/Flux. All files are provided inline — copy them into the same tree locally and push to a repo.
 
 Goal: kubectl apply -k clusters/dev (or Argo CD pointing at clusters/*) should create namespaces, apps, and infra.
-
+```bash
 Repo layout
 gitops-repo/
 ├── README.md
@@ -34,7 +34,7 @@ gitops-repo/
         ├── kustomization.yaml
         └── namespace.yaml
 
-
+```
 Top-level README.md
 # GitOps Sample Repo
 
