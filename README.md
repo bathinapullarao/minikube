@@ -120,7 +120,7 @@ kubectl top node
 ```
 
 # Common Errors
-
+``` bash
   Error                  Meaning
   ---------------------- --------------------------------------
   **ImagePullBackOff**   Image cannot be pulled from registry
@@ -137,6 +137,7 @@ kubectl top node
   **ConfigMap or Secret not found**
   **NodePort / LoadBalancer not working** Common causes:Firewall blocking, Wrong targetPort, Ingress routing not configured.
   **NetworkPolicy blocking traffic** Symptoms:Pod unreachable, Service blocked.
+```
   
 # Ingress Routing Options
 
