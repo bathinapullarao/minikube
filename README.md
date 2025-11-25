@@ -96,6 +96,7 @@ kubectl get pods -n prod
 kubectl get svc -n prod
 kubectl get ingress -n prod
 kubectl logs -n prod -l app=myapp --tail=50
+kubectl logs podname -n prod
 kubectl describe pod <pod> -n <namespace>
 ```
 
