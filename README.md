@@ -104,6 +104,7 @@ kubectl describe pod <pod> -n <namespace>
 
 ``` bash
 kubectl rollout restart deployment perchases -n prod
+kubectl rollout status deployment perchases -n prod
 kubectl get pvc -n <namespace>
 kubectl describe pvc <pvc-name> -n <namespace>
 kubectl delete pvc <pvc-name> -n <namespace>
