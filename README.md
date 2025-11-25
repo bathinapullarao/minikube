@@ -119,25 +119,57 @@ kubectl top pod -n <namespace>
 kubectl top node
 ```
 
-# Common Errors
-``` bash
-  Error                  Meaning
-  ---------------------- --------------------------------------
-  **ImagePullBackOff**   Image cannot be pulled from registry
-  **CrashLoopBackOff**   Container starts → crashes → restarts repeatedly.Common Causes:App error / bug,Missing environment variables,Wrong command or entrypoint,Program exits immediately.
-  **ContainerCreating (stuck)** Reason:Pod cannot start creating container.Common Causes:Node has no resources,PVC is not bound,CNI networking issue.
-  **Pending Pods**Reason:Pod waiting for node scheduling.Common Causes:Not enough CPU/RAM on nodes,NodeSelector / Tolerations mismatch,PVC not bound.
-  **OOMKilled**Reason:Container used more memory than its limit.Fix:Increase memory limit in Deployment,Fix memory leak in app.
-  **Crash due to Readiness/Liveness Probe failures**
-  **Forbidden Error / RBAC issues** eg:Error from server (Forbidden): pods is forbidden: User xxx cannot list resource, Fix:Create appropriate Role/ClusterRole,Bind with RoleBinding.
-  **Node NotReady / Unknown** Reason:Node lost connection or kubelet stopped.Fix:Check kubelet logs,Check network,Restart node.
-  **Service not reachable** Reasons:Selector mismatch (most common),Pod label mismatch,TargetPort wrong,Container port not exposed.Fix:Check labels,Check ports.
-  **Ingress errors** Common issues:404 Not Found,Wrong path,Missing host,Wrong annotations,Backend service not reachable.
-  **PVC stuck in Pending** Reasons:No StorageClass,Storage quota exhausted,Fix:Add SC,Expand PV.
-  **ConfigMap or Secret not found**
-  **NodePort / LoadBalancer not working** Common causes:Firewall blocking, Wrong targetPort, Ingress routing not configured.
-  **NetworkPolicy blocking traffic** Symptoms:Pod unreachable, Service blocked.
-```
+# Common Kubernetes Errors
+
+  -----------------------------------------------------------------------------------------------------------
+  **Error**              **Meaning / Causes / Fix**
+  ---------------------- ------------------------------------------------------------------------------------
+  **ImagePullBackOff**   Image cannot be pulled from registry.
+
+  **CrashLoopBackOff**   Container starts → crashes → restarts repeatedly. **Common Causes:** App error/bug,
+                         missing environment variables, wrong command or entrypoint, program exits
+                         immediately.
+
+  **ContainerCreating    **Reason:** Pod cannot start creating container. **Common Causes:** Node has no
+  (stuck)**              resources, PVC is not bound, CNI networking issue.
+
+  **Pending Pods**       **Reason:** Pod waiting for node scheduling. **Common Causes:** Not enough CPU/RAM
+                         on nodes, NodeSelector/Tolerations mismatch, PVC not bound.
+
+  **OOMKilled**          **Reason:** Container used more memory than its limit. **Fix:** Increase memory
+                         limit in Deployment, fix memory leak in app.
+
+  **Crash due to         Pod restarted or marked unhealthy due to failed health checks.
+  Readiness/Liveness     
+  Probe failures**       
+
+  **Forbidden Error /    Example:
+  RBAC issues**          `Error from server (Forbidden): pods is forbidden: User xxx cannot list resource`.
+                         **Fix:** Create appropriate Role/ClusterRole, bind with RoleBinding.
+
+  **Node NotReady /      **Reason:** Node lost connection or kubelet stopped. **Fix:** Check kubelet logs,
+  Unknown**              check network, restart node.
+
+  **Service not          **Reasons:** Selector mismatch, pod label mismatch, wrong targetPort, container port
+  reachable**            not exposed. **Fix:** Check labels and ports.
+
+  **Ingress errors**     **Common Issues:** 404 Not Found, wrong path, missing host, wrong annotations,
+                         backend service not reachable.
+
+  **PVC stuck in         **Reasons:** No StorageClass, storage quota exhausted. **Fix:** Add StorageClass,
+  Pending**              expand PV.
+
+  **ConfigMap or Secret  Object missing or wrong namespace/name.
+  not found**            
+
+  **NodePort /           **Common Causes:** Firewall blocking, wrong targetPort, ingress not configured.
+  LoadBalancer not       
+  working**              
+
+  **NetworkPolicy        **Symptoms:** Pod unreachable, service blocked due to restricted network rules.
+  blocking traffic**     
+  -----------------------------------------------------------------------------------------------------------
+
   
 # Ingress Routing Options
 
