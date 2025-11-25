@@ -1,0 +1,17 @@
+bases:
+  - ../../base
+patchesStrategicMerge:
+  - |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: app2
+    spec:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - name: app2
+              image: ghcr.io/example/app2:dev-0.1.0
+commonLabels:
+  environment: dev
