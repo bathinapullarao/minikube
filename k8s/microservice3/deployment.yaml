@@ -16,7 +16,7 @@ spec:
       containers:
         - name: perchases
           image: bathinapullarao/perchases:latest
-          imagePullPolicy: Never
+          imagePullPolicy: Always #Never
           ports:
             - containerPort: 8091
 
