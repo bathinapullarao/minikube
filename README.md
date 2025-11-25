@@ -97,14 +97,20 @@ kubectl get svc -n prod
 kubectl get ingress -n prod
 kubectl logs -n prod -l app=myapp --tail=50
 kubectl logs podname -n prod
+kubectl logs -f <pod-name> -n <namespace>  <--It keeps the log stream open and shows new logs continuously.Without -f, it just prints the current logs and exits.
+kubectl logs -f <pod-name> -c <container-name> -n <namespace> <--If pod has multiple containers
+kubectl get pod <pod-name> -o jsonpath='{.spec.containers[*].name}'  <--Check containers inside the pod**A sidecar in Kubernetes is a helper container that runs inside the same pod
 kubectl describe pod <pod> -n <namespace>
 ```
 
 # Useful Commands
 
 ``` bash
+kubectl create -f  filename.yml  <--Create the resource for the first time,Creates the object only if it does NOT already exist.If the object exists → ❌ It will fail with an error
+kubectl apply -f filename.yml    <--Purpose: Create or Update the resource.If the resource does not exist → Creates it.If the resource exists → Updates it
 kubectl rollout restart deployment perchases -n prod
 kubectl rollout status deployment perchases -n prod
+kubectl get deploy -l app=nginx-app -n <namespace> <-- -l lable
 kubectl get pvc -n <namespace>
 kubectl describe pvc <pvc-name> -n <namespace>
 kubectl delete pvc <pvc-name> -n <namespace>
@@ -115,6 +121,8 @@ kubectl get hpa -n <namespace>
 kubectl describe hpa <hpa-name> -n <namespace>
 kubectl autoscale deployment <deployment-name> --min=1 --max=5 --cpu-percent=50
 kubectl delete hpa <hpa-name> -n <namespace>
+kubectl exec -it <pod-name> -n <namespace> -- /bin/sh      <--To get inside the pod
+kubectl expose pod <pod-name> --type=NodePort --port=80    <--never expose a single pod directly unless for quick testing.
 kubectl top pod -n <namespace>
 kubectl top node
 ```
