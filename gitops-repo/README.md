@@ -62,7 +62,11 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 ### Expose Argo CD UI
 NodePort for local, LoadBalancer for cloud:
 ```
-kubectl port-forward svc/argocd-server -n argocd 8080:443
+kubectl port-forward svc/argocd-server -n argocd 8080:443 <--ctrl+c app will stop
+nohup kubectl port-forward svc/argocd-server -n argocd 8080:443 > argocd.log 2>&1 &  <--app will run in background
+ps aux | grep port-forward                   <--to check argocd process id
+kill <PID>                                   <--to stop the argocd app
+cat argocd.log
 ```
 Now open:
 ```
