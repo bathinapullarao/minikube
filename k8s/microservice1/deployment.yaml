@@ -32,6 +32,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: myapp-config
+       #          key: APP_MESSAGE
             - secretRef:
                 name: myapp-secret
 
