@@ -107,9 +107,22 @@ helm get values myapp
 helm get manifest myapp
 ```
 
+### Get history
+
+``` bash
+helm history <release-name>   <--List all revisions of a Helm release
+helm history myapp
+helm get manifest <release-name> --revision <rev-number>   <--. See the manifest for a specific revision
+helm get manifest myapp --revision 3
+helm plugin install https://github.com/databus23/helm-diff   
+helm diff revision <release-name> 2 5                      <--Compare two revisions
+
+```
+
 ### Rollback
 
 ``` bash
+helm rollback <release-name> <revision-number>
 helm rollback myapp 1
 ```
 
