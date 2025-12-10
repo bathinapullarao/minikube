@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: perchases
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: perchases
+  template:
+    metadata:
+      labels:
+        app: perchases
+    spec:
+      containers:
+        - name: perchases
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+
+          env:
+            - name: APP_MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: perchases-config
+                  key: APP_MESSAGE
+
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: perchases-config
+                  key: APP_ENV
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: perchases-secret
+                  key: DB_PASSWORD
+
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: perchases-secret
+                  key: API_KEY
+
+          volumeMounts:
+            - name: app-storage
+              mountPath: /data
+
+      volumes:
+        - name: app-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.pvcName }}
+

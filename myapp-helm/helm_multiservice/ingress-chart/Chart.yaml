@@ -1,0 +1,7 @@
+apiVersion: v2
+name: ingress-chart
+description: Dynamic ingress chart for multiple microservices
+type: application
+version: 1.0.0
+appVersion: "1.0"
+

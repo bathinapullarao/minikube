@@ -1,0 +1,23 @@
+namespace: prod
+
+replicas: 2
+
+image:
+  repository: bathinapullarao/orderservice
+  tag: latest
+
+service:
+  type: NodePort
+  port: 8000
+  nodePort: 30080
+
+configMap:
+  APP_MESSAGE: "orderservice message"
+  APP_ENV: "prod"
+
+secret:
+  DB_PASSWORD: "ord-pass"
+  API_KEY: "ord-key"
+
+pvcName: orderservice-pvc
+

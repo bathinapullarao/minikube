@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: perchases-config
+  namespace: {{ .Values.namespace }}
+data:
+  APP_MESSAGE: {{ .Values.configMap.APP_MESSAGE | quote }}
+  APP_ENV: {{ .Values.configMap.APP_ENV | quote }}
+

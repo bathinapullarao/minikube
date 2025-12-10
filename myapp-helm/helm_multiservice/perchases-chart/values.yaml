@@ -1,0 +1,23 @@
+namespace: prod
+
+replicas: 2
+
+image:
+  repository: bathinapullarao/perchases
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 8091
+
+configMap:
+  APP_MESSAGE: "perchases message"
+  APP_ENV: "prod"
+
+secret:
+  DB_PASSWORD: "perch-pass"
+  API_KEY: "perch-key"
+
+pvcName: perchases-pvc
+

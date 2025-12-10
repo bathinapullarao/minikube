@@ -1,0 +1,22 @@
+namespace: prod
+
+replicas: 2
+
+image:
+  repository: bathinapullarao/hello-world-app
+  tag: "latest"
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 8080
+
+configMap:
+  APP_MESSAGE: "Hello from MyApp"
+
+secret:
+  DB_PASSWORD: "password123"
+  API_KEY: "apikey-12345"
+
+pvcName: myapp-pvc
+

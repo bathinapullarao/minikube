@@ -1,0 +1,10 @@
+helm create namespace-chart
+helm create myapp-chart
+helm create orderservice-chart
+helm create perchases-chart
+helm install myapp myapp-chart
+helm install orderservice orderservice-chart
+helm install perchases perchases-chart
+helm install ingress ./ingress-chart
+helm upgrade ingress ./ingress-chart
+

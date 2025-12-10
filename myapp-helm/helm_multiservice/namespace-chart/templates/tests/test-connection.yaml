@@ -1,0 +1,19 @@
+{{- if .Values.service }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "namespace-chart.fullname" . }}-test-connection"
+  labels:
+    {{- include "namespace-chart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "namespace-chart.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
+
+  {{- end }}
+
