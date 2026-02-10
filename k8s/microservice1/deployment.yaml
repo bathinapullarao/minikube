@@ -1,4 +1,5 @@
-apiVersion: apps/v1
+apiVersion: apps/v1 #Which API group and version should be used to create this resource.apiVersion: <group>/<version>
+
 kind: Deployment
 metadata:
   name: myapp
@@ -36,13 +37,15 @@ spec:
             - secretRef:
                 name: myapp-secret
 
-          # Optional: Mount config as files
+        # Optional: Mount config as files
           volumeMounts:
             - name: app-storage
               mountPath: /app/data
             - name: config-volume
               mountPath: /app/config
-
+       #Resource Management:Requests means Minimum resources guaranteed,This tells Kubernetes:
+                           #Schedule this Pod only on a node that has at least these resources available.
+             #Limits	means Maximum resources allowed,Container can scale CPU usage up to 50% of one core.
           resources:
             requests:
               cpu: "100m"
@@ -50,20 +53,31 @@ spec:
             limits:
               cpu: "500m"
               memory: "256Mi"
-
+        # Readiness Probe: A readiness probe checks whether the container is ready to receive traffic.
+        # If it fails → Kubernetes does NOT restart the container.Instead:It removes the Pod from the 
+        # Service / Load Balancer.So users won’t be routed to an unhealthy pod.
           readinessProbe:
             httpGet:
               path: /
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 5
-
+        # Liveness Probe: A liveness probe checks whether your container is still alive (running properly).
+        #(like self-healing mechanism)If it fails repeatedly → Kubernetes restarts the container automatically.
           livenessProbe:
             httpGet:
               path: /
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 10
+
+         # Lifecycle Hook. What This preStop Hook Does? Pod receives termination signal, Kubernetes runs preStop hook first.
+                          # Container executes:Pod waits 10 seconds.Then container stops gracefully.
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 10"]
+
 
       volumes:
         - name: app-storage
