@@ -42,6 +42,9 @@ kubectl get pods -n ingress-nginx
 
 ``` bash
 cd myapp-helm
+helm install <release> <chart>
+helm install <release> <chart> -f values.yaml   <--Install with custom values
+helm install <release> <chart> --set key=value  <--Override values inline
 helm install myapp .
 helm list
 kubectl get all
@@ -74,7 +77,12 @@ helm install myapp .
 ### Upgrade
 
 ``` bash
+helm upgrade <release> <chart>                  <--Upgrade release
+helm upgrade <release> <chart> -f values.yaml   <--Upgrade with values
+helm upgrade --install                          <--Install if not exists
 helm upgrade myapp .
+helm upgrade myapp ./mychart
+helm upgrade --install myapp ./mychart
 ```
 
 ### Uninstall
